@@ -363,6 +363,16 @@
   .checkout-small{font-size:11.5px;color:var(--ink-soft);line-height:1.45;text-align:center;margin:10px 0 0;}
   @media(max-width:650px){.checkout-form-grid{grid-template-columns:1fr}.checkout-field.full{grid-column:auto}.checkout-modal{padding:24px 18px}.delivery-choice{grid-template-columns:1fr;}}
 
+  /* TERMINBUCHUNG */
+  .field select{border:1.5px solid var(--line);border-radius:9px;padding:12px 14px;font-family:inherit;font-size:14.5px;background:#FCFDFF;color:var(--ink);}
+  .field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,92,255,0.14);}
+  .booking-consent{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-soft);line-height:1.5;margin:0 0 18px;cursor:pointer;}
+  .booking-consent input{margin-top:3px;flex-shrink:0;}
+  .booking-consent a{color:var(--accent-ink);}
+  .submit-btn:disabled{opacity:.6;cursor:wait;}
+  .booking-status{font-size:14px;margin:14px 0 0;text-align:center;line-height:1.5;min-height:1em;}
+  .booking-status.success{color:#0a7a56;font-weight:600;}
+  .booking-status.error{color:#b42318;font-weight:600;}
 </style>
 </head>
 <body>
@@ -375,6 +385,7 @@
       <li><a href="#ablauf">Ablauf</a></li>
       <li><a href="#warum">Warum ich</a></li>
       <li><a href="#bestellen">Bestellen</a></li>
+      <li><a href="#termin">Termin</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
     </ul>
     <a href="#kontakt" class="nav-cta">Projekt anfragen</a>
@@ -606,6 +617,60 @@
     </div>
   </section>
 
+  <!-- TERMINBUCHUNG -->
+  <section class="sec" id="termin">
+    <div class="wrap contact-wrap">
+      <div class="contact-info">
+        <span class="eyebrow">Termin buchen</span>
+        <h2>Wunschtermin für ein kostenloses Erstgespräch.</h2>
+        <p>Wählen Sie einen Tag und einen Zeitraum. Ich bestätige per E-Mail oder schlage Ihnen eine Alternative vor.</p>
+        <div class="info-line"><span class="k">Schritt 1</span> Wunschtermin absenden</div>
+        <div class="info-line"><span class="k">Schritt 2</span> Ich sage zu oder schlage einen anderen Termin vor</div>
+        <div class="info-line"><span class="k">Schritt 3</span> Sie bestätigen bequem per E-Mail</div>
+      </div>
+
+      <form class="form-card" id="bookingForm">
+        <div class="form-row">
+          <div class="field">
+            <label for="bkName">Name</label>
+            <input type="text" id="bkName" name="name" placeholder="Ihr Name" maxlength="80" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="bkEmail">E-Mail</label>
+            <input type="email" id="bkEmail" name="email" placeholder="ihre@email.de" maxlength="120" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="bkDate">Wunschdatum (Mo–Fr)</label>
+            <input type="date" id="bkDate" name="date" required>
+          </div>
+          <div class="field">
+            <label for="bkSlot">Zeitraum</label>
+            <select id="bkSlot" name="slot" required>
+              <option value="" disabled selected>Bitte wählen</option>
+              <option value="09-11">09:00–11:00 Uhr</option>
+              <option value="11-13">11:00–13:00 Uhr</option>
+              <option value="13-15">13:00–15:00 Uhr</option>
+              <option value="15-18">15:00–18:00 Uhr</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="bkMessage">Worum geht es? (optional)</label>
+          <textarea id="bkMessage" name="message" rows="3" maxlength="500" placeholder="Kurz zu Ihrem Anliegen …"></textarea>
+        </div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
+        <label class="booking-consent">
+          <input type="checkbox" id="bkConsent" required>
+          <span>Ich habe die <a href="#" onclick="openModal('datenschutz');return false;">Datenschutzerklärung</a> gelesen und bin mit der Verarbeitung meiner Angaben zur Terminvereinbarung einverstanden.</span>
+        </label>
+        <button type="submit" class="submit-btn" id="bookingSubmit">Termin anfragen</button>
+        <p class="booking-status" id="bookingStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <!-- KONTAKT -->
   <section class="sec" id="kontakt">
     <div class="wrap contact-wrap">
@@ -765,10 +830,13 @@
     <h3>3. Kontaktformular</h3>
     <p>Wenn Sie das Kontaktformular nutzen, werden die von Ihnen eingegebenen Daten (Name, E-Mail-Adresse, ggf. Unternehmen, Nachricht) zum Zweck der Bearbeitung Ihrer Anfrage per E-Mail an mich übermittelt. Die Übertragung erfolgt über den Dienstleister FormSubmit. Es findet keine Weitergabe an weitere Dritte statt. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, da die Verarbeitung zur Beantwortung Ihrer Anfrage erforderlich ist.</p>
 
-    <h3>4. Ihre Rechte</h3>
+    <h3>4. Terminbuchung</h3>
+    <p>Bei einer Terminanfrage werden Name, E-Mail-Adresse, Wunschtermin und ggf. Ihre Nachricht erhoben und per E-Mail an mich übermittelt. Eine Speicherung in einer Datenbank findet nicht statt; die Daten liegen nur in den versendeten E-Mails. Die Schnittstelle wird bei Vercel Inc. betrieben, der E-Mail-Versand erfolgt über den Dienstleister Resend. Die Verarbeitung dient der Terminabstimmung (Art. 6 Abs. 1 lit. b DSGVO). Zur Bestätigung oder Terminänderung erhalten Sie E-Mails an die angegebene Adresse.</p>
+
+    <h3>5. Ihre Rechte</h3>
     <p>Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung der Verarbeitung Ihrer bei mir gespeicherten personenbezogenen Daten sowie ein Widerspruchsrecht gegen die Verarbeitung und ein Recht auf Datenübertragbarkeit. Wenden Sie sich hierzu bitte per E-Mail an hakan7545@icloud.com.</p>
 
-    <h3>5. Beschwerderecht</h3>
+    <h3>6. Beschwerderecht</h3>
     <p>Ihnen steht zudem ein Beschwerderecht bei der zuständigen Aufsichtsbehörde für den Datenschutz zu.</p>
   </div>
 </div>
@@ -987,6 +1055,76 @@
   }
 
   renderCart();
+
+  /* TERMINBUCHUNG */
+  // Nach dem Deploy bei Vercel hier die eigene Adresse eintragen, z. B. https://terminbuchung-hakan.vercel.app/api/book
+  const BOOKING_API = "https://DEIN-PROJEKT.vercel.app/api/book";
+
+  (function(){
+    const form = document.getElementById('bookingForm');
+    if(!form) return;
+    const status = document.getElementById('bookingStatus');
+    const submit = document.getElementById('bookingSubmit');
+    const dateInput = document.getElementById('bkDate');
+    const pad = n => String(n).padStart(2,'0');
+    const iso = d => d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+
+    const min = new Date(); min.setDate(min.getDate() + 1);
+    const max = new Date(); max.setDate(max.getDate() + 90);
+    dateInput.min = iso(min);
+    dateInput.max = iso(max);
+
+    function setStatus(msg, type){
+      status.textContent = msg;
+      status.className = 'booking-status' + (type ? ' ' + type : '');
+    }
+
+    dateInput.addEventListener('change', () => {
+      if(!dateInput.value) return;
+      const wd = new Date(dateInput.value + 'T12:00:00').getDay();
+      if(wd === 0 || wd === 6){
+        dateInput.value = '';
+        setStatus('Termine sind Montag bis Freitag möglich. Bitte wählen Sie einen Werktag.', 'error');
+      } else {
+        setStatus('');
+      }
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if(BOOKING_API.includes('DEIN-PROJEKT')){
+        setStatus('Die Terminbuchung ist noch nicht mit dem Backend verbunden.', 'error');
+        return;
+      }
+      const f = form.elements;
+      submit.disabled = true;
+      submit.textContent = 'Wird gesendet …';
+      setStatus('');
+      try{
+        const r = await fetch(BOOKING_API, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            name: f.name.value,
+            email: f.email.value,
+            date: f.date.value,
+            slot: f.slot.value,
+            message: f.message.value,
+            website: f.website.value
+          })
+        });
+        const data = await r.json().catch(() => ({}));
+        if(!r.ok || !data.ok) throw new Error(data.error || 'Die Anfrage konnte nicht gesendet werden.');
+        form.reset();
+        setStatus('Danke! Ihre Anfrage ist eingegangen. Sie erhalten eine Bestätigung per E-Mail.', 'success');
+      }catch(err){
+        setStatus(err.message || 'Die Anfrage konnte nicht gesendet werden. Bitte schreiben Sie mir eine E-Mail.', 'error');
+      }finally{
+        submit.disabled = false;
+        submit.textContent = 'Termin anfragen';
+      }
+    });
+  })();
 
   // Terminal typing sequence
   const lines = [
